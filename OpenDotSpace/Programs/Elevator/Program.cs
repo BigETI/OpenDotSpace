@@ -144,37 +144,43 @@ namespace OpenDotSpacePrograms.Programs.Elevator
                                 elevatorName = value.ToLowerInvariant();
                                 break;
                             case "waitforclosingdoorstime":
-                                try
+                                double wait_for_closing_doors_time;
+                                if
+                                (
+                                    double.TryParse
+                                    (
+                                        value,
+                                        System.Globalization.NumberStyles.Any,
+                                        System.Globalization.CultureInfo.InvariantCulture,
+                                        out wait_for_closing_doors_time
+                                    )
+                                )
                                 {
-                                    double wait_for_closing_doors_time =
-                                        double.Parse
-                                        (
-                                            value,
-                                            System.Globalization.NumberStyles.Any,
-                                            System.Globalization.CultureInfo.InvariantCulture
-                                        );
                                     waitingForClosingDoorsTime = (wait_for_closing_doors_time < 0.0) ? waitingForClosingDoorsTime : wait_for_closing_doors_time;
                                 }
-                                catch (Exception e)
+                                else
                                 {
-                                    Echo($"[EXCEPTION] {e}");
+                                    Echo($"[ERROR] Failed to parse input \"{value}\" as a double.");
                                 }
                                 break;
                             case "pistonsspeed":
-                                try
+                                float pistons_speed;
+                                if
+                                (
+                                    float.TryParse
+                                    (
+                                        value,
+                                        System.Globalization.NumberStyles.Any,
+                                        System.Globalization.CultureInfo.InvariantCulture,
+                                        out pistons_speed
+                                    )
+                                )
                                 {
-                                    float pistons_speed =
-                                        float.Parse
-                                        (
-                                            value,
-                                            System.Globalization.NumberStyles.Any,
-                                            System.Globalization.CultureInfo.InvariantCulture
-                                        );
                                     pistonsSpeed = (pistons_speed > float.Epsilon) ? pistons_speed : pistonsSpeed;
                                 }
-                                catch (Exception e)
+                                else
                                 {
-                                    Echo($"[EXCEPTION] {e}");
+                                    Echo($"[ERROR] Failed to parse input \"{value}\" as a float.");
                                 }
                                 break;
                         }
@@ -468,14 +474,24 @@ namespace OpenDotSpacePrograms.Programs.Elevator
                                     case "pistonsdistance":
                                         try
                                         {
-                                            float parsed_pistons_distance =
-                                                float.Parse
+                                            float parsed_pistons_distance;
+                                            if
+                                            (
+                                                float.TryParse
                                                 (
                                                     value,
                                                     System.Globalization.NumberStyles.Any,
-                                                    System.Globalization.CultureInfo.InvariantCulture
-                                                );
-                                            pistons_distance = (parsed_pistons_distance < 0.0f) ? pistons_distance : parsed_pistons_distance;
+                                                    System.Globalization.CultureInfo.InvariantCulture,
+                                                    out parsed_pistons_distance
+                                                )
+                                            )
+                                            {
+                                                pistons_distance = (parsed_pistons_distance < 0.0f) ? pistons_distance : parsed_pistons_distance;
+                                            }
+                                            else
+                                            {
+                                                Echo($"[ERROR] Failed to parse input \"{value}\" as a float.");
+                                            }
                                         }
                                         catch (Exception e)
                                         {
