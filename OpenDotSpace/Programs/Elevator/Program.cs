@@ -207,9 +207,9 @@ namespace OpenDotSpacePrograms.Programs.Elevator
                             if (command_parts.Length > 1)
                             {
                                 string elevator_door_name = command_parts[1].ToLowerInvariant();
-                                if (elevatorDoors.ContainsKey(elevator_door_name))
+                                ElevatorDoor elevator_door;
+                                if (elevatorDoors.TryGetValue(elevator_door_name, out elevator_door))
                                 {
-                                    ElevatorDoor elevator_door = elevatorDoors[elevator_door_name];
                                     bool is_inserting_elevator_door = true;
                                     int elevator_door_insertion_index = 0;
                                     float closest_distance = float.PositiveInfinity;
